@@ -1,7 +1,40 @@
+# ChurnShield AI — Streamlit Configuration
+# Place this file at: .streamlit/config.toml
+
 [theme]
-base                = "dark"
-backgroundColor     = "#060810"
-secondaryBackgroundColor = "#0c0f1a"
-primaryColor        = "#e2b96a"
-textColor           = "#dde6f0"
-font                = "sans serif"
+# ── Primary UI Elements ──────────────────────────────────────────────────────
+primaryColor = "#10B981"           # Emerald Green — buttons, sliders, toggles
+linkColor = "#34D399"              # Lighter Green — hyperlinks & active states
+
+# ── Backgrounds ──────────────────────────────────────────────────────────────
+backgroundColor = "#0A1012"        # Deep Green-Black — main canvas
+secondaryBackgroundColor = "#111C20" # Muted Dark Green-Gray — cards, inputs, sidebar
+
+# ── Text & Readability ───────────────────────────────────────────────────────
+textColor = "#E2E8F0"              # Cool Off-White — body text (neutral to prevent green tint)
+font = "sans serif"
+
+[server]
+showErrorDetails = true            # Keep true for dev, set false for production
+toolbarMode = "minimal"            # Cleaner top bar
+
+[browser]
+# ── Browser / telemetry ───────────────────────────────────────────────────────
+gatherUsageStats    = false
+serverAddress       = "localhost"
+serverPort          = 8501
+
+[runner]
+# ── Runner ────────────────────────────────────────────────────────────────────
+magicEnabled        = false              # disable st.write() magic; explicit is better
+fastReruns          = true               # re-run only changed fragments
+
+[logger]
+# ── Logging ───────────────────────────────────────────────────────────────────
+level               = "warning"          # suppress info noise; use "debug" when developing
+messageFormat       = "%(asctime)s  %(levelname)s  %(name)s: %(message)s"
+
+[client]
+# ── Client-side UX ────────────────────────────────────────────────────────────
+showErrorDetails    = true               # show tracebacks in dev; set false for production
+toolbarMode         = "minimal"          # hide the top deploy/edit bar for cleaner UI

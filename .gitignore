@@ -1,8 +1,24 @@
-venv/
+# Virtual environment
+venv_new_2/
+
+# Python cache
 __pycache__/
 *.pyc
-*.pkl
-catboost_info/
+
+# Jupyter
 .ipynb_checkpoints/
+
+# OS
 .DS_Store
+
+# Environment variables
 .env
+
+# Training artifacts
+catboost_info/
+
+# Tooling
+.claude/
+
+# Images (ONLY if generated, not required)
+*.png
