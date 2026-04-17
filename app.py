@@ -472,33 +472,82 @@ def page_shap_explorer(model, X_all, y_all):
 # ───────────────────────────────────────────────────────────────────────────────
 # MAIN APP EXECUTION
 # ───────────────────────────────────────────────────────────────────────────────
+# ───────────────────────────────────────────────────────────────────────────────
+# MAIN APP EXECUTION
+# ───────────────────────────────────────────────────────────────────────────────
 def main():
     st.set_page_config(page_title="ChurnShield AI", page_icon="🛡️", layout="wide")
-    st.markdown("""<style>.block-container {padding-top: 2rem;} .stRadio > div {flex-direction: row;}</style>""", unsafe_allow_html=True)
     
+    # Custom CSS for tab styling
+    st.markdown("""
+    <style>
+        /* Hide default tab padding */
+        .stTabs [data-baseweb="tab-list"] {
+            gap: 8px;
+            padding-bottom: 0;
+        }
+        .stTabs [data-baseweb="tab"] {
+            height: 50px;
+            white-space: nowrap;
+            background-color: #12152C;
+            border: 1px solid #1E2440;
+            border-radius: 8px 8px 0 0;
+            padding: 0 20px;
+            transition: all 0.2s ease;
+        }
+        .stTabs [aria-selected="true"] {
+            background-color: #7C3AED !important;
+            border-color: #7C3AED !important;
+            color: white !important;
+            font-weight: 600;
+        }
+        .stTabs [data-baseweb="tab"] p {
+            font-size: 0.95rem;
+            color: #C8D0E7;
+        }
+        .stTabs [aria-selected="true"] p {
+            color: white !important;
+        }
+        /* Hide the default Streamlit header/footer */
+        #MainMenu, footer { visibility: hidden; }
+        .block-container { padding-top: 2rem; }
+    </style>
+    """, unsafe_allow_html=True)
+    
+    # Load model & data
     model = load_model(BEST_KEY)
     model_loaded = model is not None
     data_ok = os.path.exists(DATA_PATH)
     df_results = get_comparison_results()
-    
-    # Clean up column names from JSON if loaded
     df_results.columns = [c.strip() for c in df_results.columns]
-
+    
     X_all, y_all = load_data() if data_ok else (pd.DataFrame(), pd.Series())
     if not X_all.empty:
-        # Ensure feature order matches pipeline expectation
         X_all = X_all.reindex(columns=sorted(X_all.columns))
     
-    page = st.radio("Navigation", ["🏠 Overview", "🔮 Predict", "📊 Model Arena", "🔍 SHAP Explorer"], horizontal=True, label_visibility="hidden")
+    # ── TABBED NAVIGATION (Nabber Style) ─────────────────────────────────────
+    tab_overview, tab_predict, tab_arena, tab_shap = st.tabs([
+        "🏠 Overview",
+        "🔮 Predict", 
+        "📊 Model Arena",
+        "🔍 SHAP Explorer"
+    ])
     
-    st.markdown("<hr style='border:1px solid #1E2440; margin:1rem 0;'>", unsafe_allow_html=True)
+    # Render each page inside its tab
+    with tab_overview:
+        page_overview(model_loaded, data_ok, X_all, y_all, df_results)
     
-    if page == "🏠 Overview": page_overview(model_loaded, data_ok, X_all, y_all, df_results)
-    elif page == "🔮 Predict": page_predict(model, X_all, y_all)
-    elif page == "📊 Model Arena": page_arena(df_results)
-    elif page == "🔍 SHAP Explorer": page_shap_explorer(model, X_all, y_all)
-
-    st.markdown("<div style='text-align:center; color:#3D4270; font-size:0.65rem; padding:20px;'>ChurnShield v2.0 · Stacking (LR Meta)</div>", unsafe_allow_html=True)
+    with tab_predict:
+        page_predict(model, X_all, y_all)
+    
+    with tab_arena:
+        page_arena(df_results)
+    
+    with tab_shap:
+        page_shap_explorer(model, X_all, y_all)
+    
+    # Footer
+    st.markdown("<div style='text-align:center; color:#3D4270; font-size:0.65rem; padding:20px; margin-top:2rem;'>ChurnShield v2.0 · Stacking (LR Meta)</div>", unsafe_allow_html=True)
 
 if __name__ == "__main__":
     main()

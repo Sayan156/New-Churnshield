@@ -22,3 +22,6 @@ catboost_info/
 
 # Images (ONLY if generated, not required)
 *.png
+ex.txt
+ssh_key
+ssh_key.pub

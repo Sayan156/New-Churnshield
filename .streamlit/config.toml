@@ -12,7 +12,7 @@ secondaryBackgroundColor = "#111C20" # Muted Dark Green-Gray — cards, inputs, 
 
 # ── Text & Readability ───────────────────────────────────────────────────────
 textColor = "#E2E8F0"              # Cool Off-White — body text (neutral to prevent green tint)
-font = "sans serif"
+font = "IBM Plex Sans"
 
 [server]
 showErrorDetails = true            # Keep true for dev, set false for production
