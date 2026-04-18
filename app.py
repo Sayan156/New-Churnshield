@@ -388,6 +388,81 @@ def page_predict(model, X_all, y_all):
             fig_wf = shap_waterfall_fig(explainer_i, sv_arr, X_input.iloc[0])
             st.pyplot(fig_wf, use_container_width=True)
             plt.close()
+def page_batch_prediction(model, X_all):
+    st.markdown("## ⚡ Batch Prediction")
+    st.markdown("Upload a CSV file containing customer profiles to predict churn risk for your entire dataset at once.")
+
+    # ── Template Download ─────────────────────────────────────────────────────────
+    st.info("📝 **Need a template?** Download the sample CSV to ensure your file matches the required format.")
+    if st.button("📥 Download Template", type="secondary", use_container_width=True):
+        expected_cols = X_all.columns.tolist()
+        template = pd.DataFrame(columns=expected_cols)
+        # Add a realistic dummy row for user guidance
+        template.loc[0] = [45, 'F', 'College', 'Married', '$60K - $80K', 'Blue', 36, 5, 1, 3, 0, 800, 0.8, 4000, 60, 0.3]
+        st.download_button(
+            label="⬇️ Save `batch_template.csv`",
+            data=template.to_csv(index=False).encode('utf-8'),
+            file_name="batch_prediction_template.csv",
+            mime="text/csv",
+            use_container_width=True
+        )
+
+    st.divider()
+
+    # ── File Upload ───────────────────────────────────────────────────────────────
+    uploaded_file = st.file_uploader(
+        "📂 Upload Customer Data (CSV)",
+        type=["csv"],
+        help="Ensure your CSV contains the exact column names from the template."
+    )
+
+    if uploaded_file is not None:
+        try:
+            with st.spinner("🔄 Reading & Validating Data..."):
+                df_upload = pd.read_csv(uploaded_file)
+                required_cols = set(X_all.columns)
+                upload_cols = set(df_upload.columns)
+
+                missing = required_cols - upload_cols
+                if missing:
+                    st.error(f"❌ **Missing Columns:** `{', '.join(missing)}`")
+                    st.warning("Please use the downloaded template to format your CSV correctly.")
+                    st.stop()
+
+                # Align columns to match the exact order expected by the pipeline
+                X_batch = df_upload[list(X_all.columns)].copy()
+
+            # ── Predict ─────────────────────────────────────────────────────────
+            with st.spinner("🚀 Computing Predictions..."):
+                probs = model.predict_proba(X_batch)[:, 1]
+
+                df_results = df_upload.copy()
+                df_results["Churn_Probability"] = np.round(probs, 4)
+                df_results["Predicted_Churn"] = (probs >= THRESHOLD).astype(int)
+                df_results["Risk_Level"] = df_results["Churn_Probability"].apply(risk_label)
+
+            # ── Results UI ──────────────────────────────────────────────────────
+            st.success(f"✅ Successfully processed **{len(df_results)}** records!")
+
+            c1, c2, c3 = st.columns(3)
+            with c1: st.metric("Total Records", len(df_results))
+            with c2: st.metric("Predicted Churn", df_results["Predicted_Churn"].sum(), f"{df_results['Predicted_Churn'].mean():.1%}")
+            with c3: st.metric("Avg Churn Prob", f"{df_results['Churn_Probability'].mean():.2%}")
+
+            st.markdown("### 📊 Results Preview")
+            st.dataframe(df_results, use_container_width=True, hide_index=True, height=300)
+
+            st.download_button(
+                label="⬇️ Download Full Results (CSV)",
+                data=df_results.to_csv(index=False).encode('utf-8'),
+                file_name="churn_predictions_batch.csv",
+                mime="text/csv",
+                use_container_width=True,
+                type="primary"
+            )
+
+        except Exception as e:
+            st.error(f"❌ **Error Processing File:** {str(e)}")
 
 def page_arena(df_results):
     st.markdown("## 📊 Model Arena")
@@ -526,23 +601,24 @@ def main():
         X_all = X_all.reindex(columns=sorted(X_all.columns))
     
     # ── TABBED NAVIGATION (Nabber Style) ─────────────────────────────────────
-    tab_overview, tab_predict, tab_arena, tab_shap = st.tabs([
-        "🏠 Overview",
-        "🔮 Predict", 
-        "📊 Model Arena",
-        "🔍 SHAP Explorer"
+
+    tab_overview, tab_predict, tab_batch, tab_arena, tab_shap = st.tabs([
+        "🏠 Overview ",
+        "🔮 Predict ",
+        "⚡ Batch Predict ",          # 👈 NEW TAB
+        "📊 Model Arena ",
+        "🔍 SHAP Explorer "
     ])
-    
+
     # Render each page inside its tab
     with tab_overview:
         page_overview(model_loaded, data_ok, X_all, y_all, df_results)
-    
     with tab_predict:
         page_predict(model, X_all, y_all)
-    
+    with tab_batch:                     # 👈 NEW RENDER
+        page_batch_prediction(model, X_all)
     with tab_arena:
         page_arena(df_results)
-    
     with tab_shap:
         page_shap_explorer(model, X_all, y_all)
     

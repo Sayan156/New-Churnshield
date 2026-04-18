@@ -253,6 +253,11 @@ class SHAPGlobalView(APIView):
                             'success': False,
                             'error': f'Missing required column: {col}',
                         }, status=status.HTTP_400_BAD_REQUEST)
+
+                # Preserve the exact feature order expected by the trained pipeline.
+                # Without this, SHAP may pass values back as numpy arrays and the
+                # model wrapper will assign them to the wrong feature names.
+                df = df.loc[:, ALL_INPUT_FEATURES].copy()
             else:
                 df = load_reference_data()
 
