@@ -1,0 +1,52 @@
+{
+  "trained_at": "2026-04-16T17:42:39",
+  "threshold": 0.5,
+  "input_features": [
+    "Customer_Age",
+    "Gender",
+    "Education_Level",
+    "Marital_Status",
+    "Income_Category",
+    "Card_Category",
+    "Months_on_book",
+    "Total_Relationship_Count",
+    "Months_Inactive_12_mon",
+    "Contacts_Count_12_mon",
+    "Total_Revolving_Bal",
+    "Total_Amt_Chng_Q4_Q1",
+    "Total_Trans_Amt",
+    "Total_Trans_Ct",
+    "Total_Ct_Chng_Q4_Q1",
+    "Avg_Utilization_Ratio"
+  ],
+  "num_features": [
+    "Customer_Age",
+    "Months_on_book",
+    "Total_Relationship_Count",
+    "Months_Inactive_12_mon",
+    "Contacts_Count_12_mon",
+    "Total_Revolving_Bal",
+    "Total_Amt_Chng_Q4_Q1",
+    "Total_Trans_Amt",
+    "Total_Trans_Ct",
+    "Total_Ct_Chng_Q4_Q1",
+    "Avg_Utilization_Ratio"
+  ],
+  "cat_features": [
+    "Gender",
+    "Education_Level",
+    "Marital_Status",
+    "Income_Category",
+    "Card_Category"
+  ],
+  "models": {
+    "stacking_lr_meta": "models/stacking_lr_meta.joblib",
+    "stacking_xgb_meta": "models/stacking_xgb_meta.joblib",
+    "xgboost": "models/xgboost.joblib"
+  },
+  "display_names": {
+    "stacking_lr_meta": "Stacking (LR Meta)",
+    "stacking_xgb_meta": "Stacking (XGB Meta)",
+    "xgboost": "XGBoost"
+  }
+}

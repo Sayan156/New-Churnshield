@@ -1,0 +1,111 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #09111a;
+  --bg-deep: #060c13;
+  --card: rgba(16, 32, 49, 0.78);
+  --card-strong: rgba(12, 24, 37, 0.92);
+  --line: rgba(212, 180, 131, 0.18);
+  --line-strong: rgba(212, 180, 131, 0.3);
+  --text: #f5efe4;
+  --muted: #9fb1c1;
+  --primary: #d4b483;
+  --secondary: #7fb7a3;
+  --shadow: 0 24px 70px rgba(0, 0, 0, 0.28);
+}
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    font-family: "Avenir Next", "Segoe UI", "Helvetica Neue", sans-serif;
+    color: var(--text);
+    background: var(--bg);
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    color: var(--text);
+    background:
+      radial-gradient(circle at top left, rgba(127, 183, 163, 0.14), transparent 28%),
+      radial-gradient(circle at top right, rgba(212, 180, 131, 0.16), transparent 24%),
+      linear-gradient(180deg, #0a1320 0%, #09111a 45%, #060c13 100%);
+    letter-spacing: 0.01em;
+  }
+
+  #root {
+    min-height: 100vh;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+    letter-spacing: 0.02em;
+    color: var(--text);
+  }
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(12, 24, 37, 0.9);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(212, 180, 131, 0.38);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(212, 180, 131, 0.58);
+}
+
+.glass-card {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent),
+    var(--card);
+  backdrop-filter: blur(18px);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+}
+
+.gradient-primary {
+  background: linear-gradient(135deg, #d9c3a0 0%, #7fb7a3 100%);
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, #f2ddbc 0%, #9ad0bf 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.panel-outline {
+  position: relative;
+}
+
+.panel-outline::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(212, 180, 131, 0.35), rgba(127, 183, 163, 0.12));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}

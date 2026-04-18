@@ -1,5 +1,5 @@
 {
-  "trained_at": "2026-04-16T17:42:39",
+  "trained_at": "2026-04-18T13:38:27",
   "threshold": 0.5,
   "input_features": [
     "Customer_Age",
@@ -40,9 +40,9 @@
     "Card_Category"
   ],
   "models": {
-    "stacking_lr_meta": "models/stacking_lr_meta.joblib",
-    "stacking_xgb_meta": "models/stacking_xgb_meta.joblib",
-    "xgboost": "models/xgboost.joblib"
+    "stacking_lr_meta": "models/stacking_lr_meta.pkl",
+    "stacking_xgb_meta": "models/stacking_xgb_meta.pkl",
+    "xgboost": "models/xgboost.pkl"
   },
   "display_names": {
     "stacking_lr_meta": "Stacking (LR Meta)",

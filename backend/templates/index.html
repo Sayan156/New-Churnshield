@@ -1,0 +1,43 @@
+# Backend is running!
+
+## Available Endpoints
+
+- **Health:** `/api/health/`
+- **Predict:** `/api/predict/`
+- **Compare:** `/api/predict/compare/`
+- **Models:** `/api/models/`
+- **Dashboard:** `/api/dashboard/stats/`
+- **SHAP:** `/api/shap/individual/`
+
+## Next Steps
+
+1. Start the frontend: `cd ../frontend && npm install && npm run dev`
+2. Visit the frontend at http://localhost:5173
+3. Or test the API directly:
+
+```bash
+# Test health endpoint
+curl http://localhost:8000/api/health/
+
+# Test prediction
+curl -X POST http://localhost:8000/api/predict/ \
+  -H "Content-Type: application/json" \
+  -d '{
+    "Customer_Age": 45,
+    "Gender": "M",
+    "Education_Level": "Graduate",
+    "Marital_Status": "Married",
+    "Income_Category": "$60K - $80K",
+    "Card_Category": "Blue",
+    "Months_on_book": 36,
+    "Total_Relationship_Count": 4,
+    "Months_Inactive_12_mon": 2,
+    "Contacts_Count_12_mon": 3,
+    "Total_Revolving_Bal": 1000,
+    "Total_Amt_Chng_Q4_Q1": 0.8,
+    "Total_Trans_Amt": 4000,
+    "Total_Trans_Ct": 60,
+    "Total_Ct_Chng_Q4_Q1": 0.7,
+    "Avg_Utilization_Ratio": 0.3
+  }'
+```

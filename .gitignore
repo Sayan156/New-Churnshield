@@ -1,27 +1,52 @@
-# Virtual environment
-venv_new_2/
+# Ignore everything at the repo root by default.
+/*
 
-# Python cache
-__pycache__/
-*.pyc
+# Keep only the app code directories and this file in git.
+!/.gitignore
+!/backend/
+!/backend/**
+!/frontend/
+!/frontend/**
 
-# Jupyter
-.ipynb_checkpoints/
+# Python cache and virtualenvs
+**/__pycache__/
+**/*.py[cod]
+**/.pytest_cache/
+**/.coverage
+**/htmlcov/
+**/.ipynb_checkpoints/
+**/venv/
+**/.venv/
 
-# OS
-.DS_Store
+# Environment and local databases
+**/.env
+**/.env.*
+**/db.sqlite3
+**/db.sqlite3-journal
 
-# Environment variables
-.env
+# Django generated files
+**/staticfiles/
+**/media/
+**/*.log
 
-# Training artifacts
-catboost_info/
+# Node/Vite artifacts
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+npm-debug.log*
 
-# Tooling
-.claude/
+# OS / editor files
+**/.DS_Store
+**/.idea/
+**/.vscode/
+**/*.swp
+**/*~
 
-# Images (ONLY if generated, not required)
-*.png
-ex.txt
-ssh_key
-ssh_key.pub
+# Python / build artifacts
+**/build/
+**/dist/
+**/*.egg-info/
+
+# Optional local training/runtime artifacts if generated inside kept folders
+backend/data/
+backend/**/catboost_info/

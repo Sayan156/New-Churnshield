@@ -1,0 +1,25 @@
+# Django & DRF
+Django>=4.2
+djangorestframework>=3.14
+django-cors-headers>=4.0
+
+# ML Dependencies
+pandas>=2.0
+numpy>=1.24
+scikit-learn>=1.3
+xgboost>=1.7
+catboost>=1.0
+shap>=0.42
+cloudpickle>=2.0
+
+# Deployment
+gunicorn>=21.0
+whitenoise[brotli]>=6.0
+psycopg2-binary>=2.9
+
+# Async tasks (optional for SHAP)
+celery[redis]>=5.3
+
+# Development & Testing
+pytest-django>=4.5
+python-dotenv>=1.0
